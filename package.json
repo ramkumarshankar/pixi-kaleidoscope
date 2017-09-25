@@ -4,8 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "wzrd src/app.js -- --debug",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ramkumar Shankar",
-  "license": "UNLICENSED"
+  "license": "UNLICENSED",
+  "dependencies": {
+    "browserify": "^14.4.0",
+    "stats.js": "^0.17.0",
+    "wzrd": "^1.5.0"
+  }
 }
