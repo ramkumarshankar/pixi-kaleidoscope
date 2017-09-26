@@ -6,6 +6,8 @@ var Kaleidoscope = function () {
 
     self.parentElement = null;
 
+    self.texture = null;
+
     // self.viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     // self.viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 

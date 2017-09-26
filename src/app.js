@@ -2,7 +2,7 @@ let PIXI = require('pixi.js');
 let Stats = require('stats.js');
 let Kaleidoscope = require('./kaleidoscope');
 
-var k = new Kaleidoscope();
+var kal = new Kaleidoscope();
 
 var type = "WebGL"
 if(!PIXI.utils.isWebGLSupported()){
@@ -23,6 +23,8 @@ var renderer = PIXI.autoDetectRenderer(canvas.width, canvas.height, {view: canva
 
 // Create the stage
 var stage = new PIXI.Container();
+
+var sliceContainer = new PIXI.Container();
 
 // //Add the canvas to the HTML document
 // document.body.appendChild(renderer.view);
@@ -82,8 +84,9 @@ var stage = new PIXI.Container();
 // var renderer = PIXI.autoDetectRenderer(canvas.width, canvas.height, {view: canvas});
 
 //create a texture
-var texture = PIXI.Texture.fromImage("./assets/bg--main-bertrand.jpg");
-var tilingSprite = new PIXI.extras.TilingSprite(texture, 2000, 2000);
+kal.texture = PIXI.Texture.fromImage("./assets/bg--main-bertrand.jpg");
+// var texture = PIXI.Texture.fromImage("./assets/bg--main-bertrand.jpg");
+var tilingSprite = new PIXI.extras.TilingSprite(kal.texture, 2000, 2000);
 stage.addChild(tilingSprite);
 
 //create a polygon
@@ -95,7 +98,7 @@ graphics.lineTo(220, 320);
 graphics.lineTo(80, 110);
 graphics.lineTo(50,50);
 graphics.endFill();
-stage.addChild(graphics);
+// stage.addChild(graphics);
 
   var semicircle = new PIXI.Graphics();
   semicircle.beginFill(0);
