@@ -1,3 +1,5 @@
+var PIXI = require('pixi.js');
+
 var Kaleidoscope = function (pixiApp) {
     var self = this;
 
@@ -9,6 +11,9 @@ var Kaleidoscope = function (pixiApp) {
     self.parentElement = null;
 
     self.texture = null;
+    self.tilingSprite = null;
+
+    self.sliceContainer = new PIXI.Container();
 
     // self.viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     // self.viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
@@ -25,6 +30,34 @@ var Kaleidoscope = function (pixiApp) {
 
     self.setParent = function(element) {
         self.parentElement = element;
+    };
+
+    self.setup = function() {
+        self.app.stage.addChild(self.sliceContainer);
+    }
+
+    self.update = function(delta) {
+        self.sliceContainer.removeChildren();
+        var step = self.TWO_PI / self.variables.slices;
+        self.sliceContainer.addChild(self.tilingSprite);
+
+
+        for (var i = 0; i < self.variables.slices; i++) {
+            var slice = new PIXI.Graphics();
+            slice.beginFill(0);
+            slice.lineStyle(2, 0xffffff);
+            slice.position = {x: window.innerWidth/2, y: window.innerHeight/2};
+            slice.moveTo(0, 0);
+            slice.arc(0, 0, 500, i*step, i*step + step); // cx, cy, radius, startAngle, endAngle\
+
+            slice.endFill();
+            self.sliceContainer.addChild(slice);
+            if (i == 7) {
+                self.tilingSprite.mask = slice;
+            }
+            self.tilingSprite.x += 0.1;
+        }
+
     };
 }
 
