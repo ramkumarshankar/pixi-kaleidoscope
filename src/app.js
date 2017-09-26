@@ -33,7 +33,6 @@ function init() {
   kal.texture = PIXI.Texture.fromImage("./assets/bg--main-bertrand.jpg");
   // var texture = PIXI.Texture.fromImage("./assets/bg--main-bertrand.jpg");
   kal.tilingSprite = new PIXI.extras.TilingSprite(kal.texture, 2000, 2000);
-// kal.app.stage.addChild(kal.tilingSprite);
 
   kal.setup();
 
