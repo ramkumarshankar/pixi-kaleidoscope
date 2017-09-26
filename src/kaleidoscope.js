@@ -8,6 +8,10 @@ var Kaleidoscope = function (pixiApp) {
     self.HALF_PI = Math.PI / 2;
     self.TWO_PI = Math.PI * 2;
 
+    self.sprites = [];
+    self.pieces = [];
+    self.arcs = [];
+
     self.parentElement = null;
 
     self.texture = null;
@@ -35,6 +39,13 @@ var Kaleidoscope = function (pixiApp) {
     };
 
     self.setup = function() {
+
+        // self.sprites = [];
+        // self.pieces = [];
+        // self.arcs = [];
+
+        // self.app.stage.removeChildren();
+
         self.app.stage.addChild(self.sliceContainer);
         self.app.stage.addChild(self.textureContainer);
 
@@ -59,14 +70,16 @@ var Kaleidoscope = function (pixiApp) {
             // Setup texture
             var texture = new PIXI.extras.TilingSprite(self.texture, 2048, 2048);
             texture.position = {x: window.innerWidth/2, y: window.innerHeight/2};
-            texture.anchor.x = 0.5;
-            texture.anchor.y = 0.5;
+            texture.anchor.x = 0;
+            texture.anchor.y = 0;
             texture.mask = slice;
-            texture.rotation = Math.PI + i*step;
+            texture.rotation = i*step;
 
             if (i % 2 !== 0) {
-                texture.anchor.x = 0.5;
-                texture.anchor.y = 0.5;
+                texture.anchor.x = 0;
+                texture.anchor.y = 0;
+                // texture.tileScale.x *= -1;
+                // texture.tileScale.y *= -1;
                 // texture.scale.x *= -1;
                 // texture.scale.y *= -1;
                 // texture.position
@@ -81,9 +94,11 @@ var Kaleidoscope = function (pixiApp) {
         var step = self.TWO_PI / self.variables.slices;
 
         for (var i = 0; i < sliceImages.length; i++) {
-            sliceImages[i].x -= Math.cos(sliceImages[i].rotation);
-            sliceImages[i].y -= Math.sin(sliceImages[i].rotation);
-            sliceImages[i].rotation += 0.001;
+            // sliceImages[i].tilePosition.x += Math.cos(sliceImages[i].rotation);
+            // sliceImages[i].tilePosition.y += Math.sin(sliceImages[i].rotation);
+            // sliceImages[i].tilePosition.x += 1;//Math.cos(sliceImages[i].rotation);
+            // sliceImages[i].tilePosition.y += 1; //Math.sin(sliceImages[i].rotation);
+            // sliceImages[i].rotation += 0.001;
             // console.log("index: " + i + ", x: " + sliceImages[i].x );
             // if (sliceImages[i].x < 200) {
             //     self.textureContainer.removeChildAt(i);
