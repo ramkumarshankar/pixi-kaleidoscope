@@ -1,5 +1,17 @@
+var PIXI = require('pixi.js');
+
+var type = "WebGL"
+if(!PIXI.utils.isWebGLSupported()){
+    type = "canvas"
+}
+PIXI.utils.sayHello(type)
+
+var canvas = document.getElementById('kaleidoscope');
+canvas.width = canvas.clientWidth;
+canvas.height = canvas.clientHeight;
+
 //Create the renderer
-// var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
+var renderer = PIXI.autoDetectRenderer(canvas.width, canvas.height, {view: canvas});
 
 // //Add the canvas to the HTML document
 // document.body.appendChild(renderer.view);
@@ -55,8 +67,8 @@
 // }
 
 var stage = new PIXI.Container(0, true);
-var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.view);
+// var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
+// var renderer = PIXI.autoDetectRenderer(canvas.width, canvas.height, {view: canvas});
 
 //create a texture
 var texture = PIXI.Texture.fromImage("./assets/bg--main-bertrand.jpg");
@@ -89,5 +101,6 @@ update();
 function update()
 {    
     requestAnimationFrame( update );
+    semicircle.x += 1;
     renderer.render(stage);
 }

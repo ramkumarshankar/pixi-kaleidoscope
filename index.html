@@ -2,21 +2,20 @@
     <head>
         <title>Kaleidoscope</title>
         <script src="./vendor/stats.min.js"></script>
-        <script src="./vendor/pixi.js"></script>
+        <!-- <script src="./vendor/pixi.js"></script> -->
         <style>
             body {
                 margin: 0;
             }
+            canvas#kaleidoscope {
+                overflow: hidden;
+                width: 100vw;
+                height: 100vh;
+            }
         </style>
     </head>
     <body>
-        <script type="text/javascript">
-            var type = "WebGL"
-            if(!PIXI.utils.isWebGLSupported()){
-                type = "canvas"
-            }
-            PIXI.utils.sayHello(type)
-        </script>
+        <canvas id="kaleidoscope"></canvas>
 
     </body>
     <script src="./src/app.js"></script>
