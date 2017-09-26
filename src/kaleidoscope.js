@@ -1,5 +1,7 @@
-var Kaleidoscope = function () {
+var Kaleidoscope = function (pixiApp) {
     var self = this;
+
+    self.app = pixiApp;
 
     self.HALF_PI = Math.PI / 2;
     self.TWO_PI = Math.PI * 2;
