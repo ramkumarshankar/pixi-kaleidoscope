@@ -1,4 +1,5 @@
-var PIXI = require('pixi.js');
+let PIXI = require('pixi.js');
+let Stats = require('stats.js');
 
 var type = "WebGL"
 if(!PIXI.utils.isWebGLSupported()){
@@ -6,12 +7,19 @@ if(!PIXI.utils.isWebGLSupported()){
 }
 PIXI.utils.sayHello(type)
 
+var stats = new Stats();
+stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
+document.body.appendChild( stats.dom );
+
 var canvas = document.getElementById('kaleidoscope');
 canvas.width = canvas.clientWidth;
 canvas.height = canvas.clientHeight;
 
 //Create the renderer
 var renderer = PIXI.autoDetectRenderer(canvas.width, canvas.height, {view: canvas});
+
+// Create the stage
+var stage = new PIXI.Container();
 
 // //Add the canvas to the HTML document
 // document.body.appendChild(renderer.view);
@@ -66,7 +74,7 @@ var renderer = PIXI.autoDetectRenderer(canvas.width, canvas.height, {view: canva
 
 // }
 
-var stage = new PIXI.Container(0, true);
+
 // var renderer = PIXI.autoDetectRenderer(window.innerWidth, window.innerHeight);
 // var renderer = PIXI.autoDetectRenderer(canvas.width, canvas.height, {view: canvas});
 
@@ -97,10 +105,17 @@ stage.addChild(graphics);
 //mask the texture with the polygon
 tilingSprite.mask = semicircle;
 
-update();
-function update()
+let ticker = new PIXI.ticker.Ticker();
+ticker.add(update);
+ticker.start();
+
+
+// update();
+function update(delta)
 {    
-    requestAnimationFrame( update );
-    semicircle.x += 1;
+    // requestAnimationFrame( update );
+    // semicircle.x += 1;
+    stats.begin();
     renderer.render(stage);
+    stats.end();
 }
