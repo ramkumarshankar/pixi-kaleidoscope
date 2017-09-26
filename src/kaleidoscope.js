@@ -58,14 +58,14 @@ var Kaleidoscope = function (pixiApp) {
             // Setup texture
             var texture = new PIXI.extras.TilingSprite(self.texture, 2000, 2000);
             texture.position = {x: window.innerWidth/2, y: window.innerHeight/2};
-            texture.anchor.x = 0;
-            texture.anchor.y = 0;
+            texture.anchor.x = 0.5;
+            texture.anchor.y = 0.5;
             texture.mask = slice;
             texture.rotation = i*step;
 
             if (i % 2 !== 0) {
-                texture.anchor.x = 0;
-                texture.anchor.y = 1;
+                texture.anchor.x = 0.5;
+                texture.anchor.y = 0.5;
                 // texture.scale.x *= -1;
                 texture.scale.y *= -1;
                 // texture.position
@@ -78,7 +78,7 @@ var Kaleidoscope = function (pixiApp) {
     self.update = function(delta) {
         var sliceImages = self.textureContainer.children;
         for (var i = 0; i < sliceImages.length; i++) {
-            // sliceImages[i].x += 0.1;
+            sliceImages[i].rotation += 0.001;
         }
     };
 }
