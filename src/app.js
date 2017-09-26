@@ -18,13 +18,19 @@ var canvas = document.getElementById('kaleidoscope');
 canvas.width = canvas.clientWidth;
 canvas.height = canvas.clientHeight;
 
-//Create the renderer
-var renderer = PIXI.autoDetectRenderer(canvas.width, canvas.height, {view: canvas});
 
-// Create the stage
-var stage = new PIXI.Container();
+var app = new PIXI.Application({
+  autostart: true, 
+  width: canvas.width, 
+  height: canvas.height,
+  view: canvas});
+// document.body.appendChild(app.view);
 
-var sliceContainer = new PIXI.Container();
+// //Create the renderer
+// var renderer = PIXI.autoDetectRenderer(canvas.width, canvas.height, {view: canvas});
+
+// // Create the stage
+// var stage = new PIXI.Container();
 
 // //Add the canvas to the HTML document
 // document.body.appendChild(renderer.view);
@@ -87,7 +93,7 @@ var sliceContainer = new PIXI.Container();
 kal.texture = PIXI.Texture.fromImage("./assets/bg--main-bertrand.jpg");
 // var texture = PIXI.Texture.fromImage("./assets/bg--main-bertrand.jpg");
 var tilingSprite = new PIXI.extras.TilingSprite(kal.texture, 2000, 2000);
-stage.addChild(tilingSprite);
+app.stage.addChild(tilingSprite);
 
 //create a polygon
 var graphics = new PIXI.Graphics();
@@ -106,22 +112,24 @@ graphics.endFill();
   semicircle.arc(0, 0, 500, 0, 2*Math.PI); // cx, cy, radius, startAngle, endAngle
   semicircle.position = {x: window.innerWidth/2, y: window.innerHeight/2};
   semicircle.endFill();
-  stage.addChild(semicircle);
+  app.stage.addChild(semicircle);
 
 //mask the texture with the polygon
 tilingSprite.mask = semicircle;
 
-let ticker = new PIXI.ticker.Ticker();
-ticker.add(update);
-ticker.start();
+// app.ticker.add(update);
+
+// let ticker = new PIXI.ticker.Ticker();
+// ticker.add(update);
+// ticker.start();
 
 
-// update();
+// // update();
 function update(delta)
 {    
     // requestAnimationFrame( update );
     // semicircle.x += 1;
     stats.begin();
-    renderer.render(stage);
+    // app.renderer.render(app.stage);
     stats.end();
 }
