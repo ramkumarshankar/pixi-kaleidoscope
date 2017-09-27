@@ -1,5 +1,53 @@
 var PIXI = require('pixi.js');
 
+var pkeys=[];
+window.onkeydown = function (e) {
+    var code = e.keyCode ? e.keyCode : e.which;
+    pkeys[code]=true;
+
+}
+window.onkeyup = function (e) {
+  var code = e.keyCode ? e.keyCode : e.which;
+  pkeys[code]=false;
+};
+
+function keyboard(keyCode) {
+    var key = {};
+    key.code = keyCode;
+    key.isDown = false;
+    key.isUp = true;
+    key.press = undefined;
+    key.release = undefined;
+    //The `downHandler`
+    key.downHandler = function(event) {
+      if (event.keyCode === key.code) {
+        if (key.isUp && key.press) key.press();
+        key.isDown = true;
+        key.isUp = false;
+      }
+      event.preventDefault();
+    };
+  
+    //The `upHandler`
+    key.upHandler = function(event) {
+      if (event.keyCode === key.code) {
+        if (key.isDown && key.release) key.release();
+        key.isDown = false;
+        key.isUp = true;
+      }
+      event.preventDefault();
+    };
+  
+    //Attach event listeners
+    window.addEventListener(
+      "keydown", key.downHandler.bind(key), false
+    );
+    window.addEventListener(
+      "keyup", key.upHandler.bind(key), false
+    );
+    return key;
+  }
+
 var Kaleidoscope = function (pixiApp) {
     var self = this;
 
@@ -67,7 +115,7 @@ var Kaleidoscope = function (pixiApp) {
             slice.endFill();
             self.sliceContainer.addChild(slice);
 
-            console.log(slice.getBounds());
+            // console.log(slice.getBounds());
 
             // Setup texture
             var texture = new PIXI.extras.TilingSprite(self.texture, 1920, 1080);
@@ -90,6 +138,58 @@ var Kaleidoscope = function (pixiApp) {
 
             self.textureContainer.addChild(texture);
         }
+        //Capture the keyboard arrow keys
+        var moveout = keyboard(38),
+        movein = keyboard(40);
+
+        //Left arrow key `press` method
+        moveout.press = function() {
+
+            var sliceImages = self.textureContainer.children;
+
+            for (var i = 0; i < sliceImages.length; i++) {
+
+                moveX = Math.cos(i*step);
+                moveY = Math.sin(i*step);
+
+                sliceImages[i].x += moveX * 100;
+                sliceImages[i].y += moveY * 100;
+
+                console.log(sliceImages[0].x);
+                // console.log(self.viewportWidth);
+
+                if (sliceImages[0].x > self.viewportWidth-100) {
+                    console.log('resetting');
+                    // pause;
+                    // self.setup();
+                }
+
+            }
+        };
+
+        movein.press = function() {
+
+            var sliceImages = self.textureContainer.children;
+            
+            for (var i = 0; i < sliceImages.length; i++) {
+
+                moveX = Math.cos(i*step);
+                moveY = Math.sin(i*step);
+
+                sliceImages[i].x -= moveX * 100;
+                sliceImages[i].y -= moveY * 100;
+
+                console.log(sliceImages[0].x);
+                // console.log(self.viewportWidth);
+
+                if (sliceImages[0].x > self.viewportWidth-100) {
+                    console.log('resetting');
+                    // pause;
+                    // self.setup();
+                }
+
+            }
+        };
     }
 
     self.update = function(delta) {
@@ -100,32 +200,24 @@ var Kaleidoscope = function (pixiApp) {
         var moveY = 0;
         var speed = 0.5;
 
-        for (var i = 0; i < sliceImages.length; i++) {
+        // for (var i = 0; i < sliceImages.length; i++) {
 
-            moveX = Math.cos(i*step);
-            moveY = Math.sin(i*step);
+        //     moveX = Math.cos(i*step);
+        //     moveY = Math.sin(i*step);
 
-            sliceImages[i].x += moveX;
-            sliceImages[i].y += moveY;
+        //     sliceImages[i].x += moveX;
+        //     sliceImages[i].y += moveY;
 
-            console.log(sliceImages[0].x);
+        //     console.log(sliceImages[0].x);
+        //     // console.log(self.viewportWidth);
 
-            // if (sliceImages[0].x > self.viewportWidth / 2) {
-            //     self.setup();
-            // }
+        //     if (sliceImages[0].x > self.viewportWidth-100) {
+        //         console.log('resetting');
+        //         pause;
+        //         // self.setup();
+        //     }
 
-
-            // if (slices[i].x > sliceImages[i].x) {
-            //     self.setup();
-            // }
-
-            // console.log(sliceImages[i].getBounds());
-
-            // if (i === 0) {
-            //     console.log(sliceImages[i].x);
-            // }
-
-        }
+        // }
     };
 }
 
