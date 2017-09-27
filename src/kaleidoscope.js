@@ -20,8 +20,8 @@ var Kaleidoscope = function (pixiApp) {
     self.sliceContainer = new PIXI.Container();
     self.textureContainer = new PIXI.Container();
 
-    // self.viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    // self.viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    self.viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+    self.viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
     self.variables = {
         offsetRotation: 0.0,
@@ -30,7 +30,7 @@ var Kaleidoscope = function (pixiApp) {
         offsetY: 0.0,
         radius: 500, // TO BE CHANGED
         // radius: Math.round(Math.sqrt( (self.viewportWidth* self.viewportWidth) + (self.viewportHeight * self.viewportHeight) ) / 2),
-        slices: 8,
+        slices: 6,
         zoom: 1.0
     };
 
@@ -39,12 +39,6 @@ var Kaleidoscope = function (pixiApp) {
     };
 
     self.setup = function() {
-
-        // self.sprites = [];
-        // self.pieces = [];
-        // self.arcs = [];
-
-        // self.app.stage.removeChildren();
 
         self.app.stage.addChild(self.sliceContainer);
         self.app.stage.addChild(self.textureContainer);
@@ -56,43 +50,43 @@ var Kaleidoscope = function (pixiApp) {
         var currentRotation = 0;
 
         for (var i = 0; i < self.variables.slices; i++) {
-
-            if (i === 0) {
-                // currentRotation = (i*step + (i*step + step))/2;
-                currentRotation = i*step;
-                // texture.tileScale.y *= -1;
-                // texture.tileScale.x *= -1;
-                // texture.tileScale.y *= -1;
-            }
-
+            
+            currentRotation = i*step;
+ 
             var slice = new PIXI.Graphics();
 
             // Setup shape
             slice.beginFill(0);
             slice.lineStyle(2, 0xffffff);
-            slice.position = {x: window.innerWidth/2, y: window.innerHeight/2};
+            // slice.position = {x: window.innerWidth/2, y: window.innerHeight/2};
             slice.moveTo(0, 0);
-            slice.arc(0, 0, self.variables.radius, i*step, i*step + step); // cx, cy, radius, startAngle, endAngle\
+            slice.arc(0, 0, self.variables.radius, i*step + (step * -0.51), i*step + step * 0.51); // cx, cy, radius, startAngle, endAngle\
+            slice.closePath();
+            slice.position = {x: window.innerWidth/2, y: window.innerHeight/2};
 
             slice.endFill();
             self.sliceContainer.addChild(slice);
 
+            console.log(slice.getBounds());
+
             // Setup texture
-            var texture = new PIXI.extras.TilingSprite(self.texture, 1024, 1024);
+            var texture = new PIXI.extras.TilingSprite(self.texture, 1920, 1080);
             texture.anchor.x = 0.5;
             texture.anchor.y = 0.5;
             texture.position = {x: window.innerWidth/2, y: window.innerHeight/2};
+            texture.rotation = self.HALF_PI;
+            texture.rotation += currentRotation;
             
             texture.mask = slice;
-            texture.rotation = currentRotation;
 
-            if (i % 2 !== 0) {
-                // texture.y += 100;
+            if (i % 2 === 0) {
+                texture.anchor.x = 1;
+                texture.anchor.y = 0.5;
+                texture.scale.x *= -1;
                 texture.anchor.x = 0.5;
                 texture.anchor.y = 0.5;
-                texture.rotation = self.TWO_PI - currentRotation;
-                currentRotation = texture.rotation;
             }
+
 
             self.textureContainer.addChild(texture);
         }
@@ -100,64 +94,38 @@ var Kaleidoscope = function (pixiApp) {
 
     self.update = function(delta) {
         var sliceImages = self.textureContainer.children;
+        var slices = self.sliceContainer.children;
         var step = self.TWO_PI / self.variables.slices;
         var moveX = 0;
         var moveY = 0;
+        var speed = 0.5;
 
-        for (var i = 0; i < sliceImages.length-5; i++) {
+        for (var i = 0; i < sliceImages.length; i++) {
+
+            moveX = Math.cos(i*step);
+            moveY = Math.sin(i*step);
+
+            sliceImages[i].x += moveX;
+            sliceImages[i].y += moveY;
+
+            console.log(sliceImages[0].x);
+
+            // if (sliceImages[0].x > self.viewportWidth / 2) {
+            //     self.setup();
+            // }
+
+
+            // if (slices[i].x > sliceImages[i].x) {
+            //     self.setup();
+            // }
+
+            // console.log(sliceImages[i].getBounds());
+
             // if (i === 0) {
-            //     moveX = Math.cos((i*step + (i*step + step))/2) * 0.1;
-            //     moveY = Math.sin((i*step + (i*step + step))/2) * 0.1;
-            //     // moveX = Math.cos(sliceImages[i].rotation) * 0.1;
-            //     // moveY = Math.sin(sliceImages[i].rotation) * 0.1;
-            //     // sliceImages[i].tilePosition.x -= moveX;
-            //     sliceImages[i].tilePosition.x += moveX;
-            //     sliceImages[i].tilePosition.y += moveY;
+            //     console.log(sliceImages[i].x);
             // }
-            // if ( i % 2 !== 0) {
-            //     // sliceImages[i].tilePosition.x -= moveX;
-            //     sliceImages[i].tilePosition.x += moveX;
-            //     sliceImages[i].tilePosition.y += moveY * Math.sin((i*step + (i*step + step))/2);
-            // }
-            // else if ( i !== 0) {
-            //     sliceImages[i].tilePosition.x += Math.cos((i*step + (i*step + step))/2) * 0.1;
-            //     sliceImages[i].tilePosition.y += moveY;
-            // }
-                
-            
-            // if (i % 2 == 0)
-            // {
-            //     // sliceImages[i].tilePosition.x += 0.1;
-            //     // sliceImages[i].tilePosition.y += 0.1;
-            //     sliceImages[i].tilePosition.x += Math.cos((i*step + (i*step + step))/2) * 0.1;
-            //     sliceImages[i].tilePosition.y += Math.sin((i*step + (i*step + step))/2) * 0.1;
-            // }
-            // else {
-            //     sliceImages[i].tilePosition.x += Math.cos((i*step + (i*step + step))/2) * 0.1;
-            //     sliceImages[i].tilePosition.y += Math.sin((i*step + (i*step + step))/2) * 0.1;
-            //     // sliceImages[i].tilePosition.x -= Math.cos((i*step + (i*step + step))/2) * 0.1;
-            //     // sliceImages[i].tilePosition.y += Math.sin((i*step + (i*step + step))/2) * 0.1;
-            // }
-            
 
-            // sliceImages[i].tilePosition.y += Math.sin(i*step) * 0.1;
-            // sliceImages[i].tilePosition.x += Math.cos(sliceImages[i].rotation) * 0.1;
-            // sliceImages[i].tilePosition.y += Math.sin(sliceImages[i].rotation) * 0.1;
-            // sliceImages[i].rotation += 0.001;
-            // console.log("index: " + i + ", x: " + sliceImages[i].x );
-            // if (sliceImages[i].x < 200) {
-            //     self.textureContainer.removeChildAt(i);
-            //     var texture = new PIXI.extras.TilingSprite(self.texture, 2000, 2000);
-            //     texture.position = {x: window.innerWidth/2, y: window.innerHeight/2};
-            //     texture.anchor.x = 0.5;
-            //     texture.anchor.y = 0.5;
-            //     texture.mask = self.sliceContainer.getChildAt(i);
-            //     texture.rotation = i*step;
-            //     self.textureContainer.addChild(texture);
-            // }
         }
-        // self.context.translate(self.variables.offsetX - cx, self.variables.offsetY);
-        // console.log(sliceImages[0].x);
     };
 }
 
