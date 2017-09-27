@@ -30,7 +30,7 @@ var Kaleidoscope = function (pixiApp) {
         offsetY: 0.0,
         radius: 500, // TO BE CHANGED
         // radius: Math.round(Math.sqrt( (self.viewportWidth* self.viewportWidth) + (self.viewportHeight * self.viewportHeight) ) / 2),
-        slices: 4,
+        slices: 8,
         zoom: 1.0
     };
 
@@ -57,7 +57,7 @@ var Kaleidoscope = function (pixiApp) {
 
         for (var i = 0; i < self.variables.slices; i++) {
 
-            if (i % 2 === 0) {
+            if (i === 0) {
                 // currentRotation = (i*step + (i*step + step))/2;
                 currentRotation = i*step;
                 // texture.tileScale.y *= -1;
@@ -83,26 +83,15 @@ var Kaleidoscope = function (pixiApp) {
             texture.anchor.y = 0.5;
             texture.position = {x: window.innerWidth/2, y: window.innerHeight/2};
             
-            // if (i === 0) {
             texture.mask = slice;
-            // }
-            // texture.tileScale.x *= -1;
-            // texture.rotation = i*step;
             texture.rotation = currentRotation;
 
             if (i % 2 !== 0) {
                 // texture.y += 100;
                 texture.anchor.x = 0.5;
                 texture.anchor.y = 0.5;
-                // texture.rotation = self.TWO_PI - (i*step + (i*step + step))/2;
-                // texture.scale.x *= -1;
-                texture.scale.x *= -1;
-                // console.log(texture.tileScale);
-                // texture.tileScale.x *= -1;
-                // texture.tileScale.y *= -1;
-                // texture.scale.x *= -1;
-                // texture.scale.y *= -1;
-                // texture.position
+                texture.rotation = self.TWO_PI - currentRotation;
+                currentRotation = texture.rotation;
             }
 
             self.textureContainer.addChild(texture);
@@ -112,18 +101,42 @@ var Kaleidoscope = function (pixiApp) {
     self.update = function(delta) {
         var sliceImages = self.textureContainer.children;
         var step = self.TWO_PI / self.variables.slices;
+        var moveX = 0;
+        var moveY = 0;
 
-        for (var i = 0; i < sliceImages.length; i++) {
-            sliceImages[i].tilePosition.x += 0.5;
-            sliceImages[i].tilePosition.y += 0.5;
+        for (var i = 0; i < sliceImages.length-5; i++) {
+            // if (i === 0) {
+            //     moveX = Math.cos((i*step + (i*step + step))/2) * 0.1;
+            //     moveY = Math.sin((i*step + (i*step + step))/2) * 0.1;
+            //     // moveX = Math.cos(sliceImages[i].rotation) * 0.1;
+            //     // moveY = Math.sin(sliceImages[i].rotation) * 0.1;
+            //     // sliceImages[i].tilePosition.x -= moveX;
+            //     sliceImages[i].tilePosition.x += moveX;
+            //     sliceImages[i].tilePosition.y += moveY;
+            // }
+            // if ( i % 2 !== 0) {
+            //     // sliceImages[i].tilePosition.x -= moveX;
+            //     sliceImages[i].tilePosition.x += moveX;
+            //     sliceImages[i].tilePosition.y += moveY * Math.sin((i*step + (i*step + step))/2);
+            // }
+            // else if ( i !== 0) {
+            //     sliceImages[i].tilePosition.x += Math.cos((i*step + (i*step + step))/2) * 0.1;
+            //     sliceImages[i].tilePosition.y += moveY;
+            // }
+                
+            
             // if (i % 2 == 0)
             // {
+            //     // sliceImages[i].tilePosition.x += 0.1;
+            //     // sliceImages[i].tilePosition.y += 0.1;
             //     sliceImages[i].tilePosition.x += Math.cos((i*step + (i*step + step))/2) * 0.1;
             //     sliceImages[i].tilePosition.y += Math.sin((i*step + (i*step + step))/2) * 0.1;
             // }
             // else {
-            //     sliceImages[i].tilePosition.x -= Math.cos((i*step + (i*step + step))/2) * 0.1;
+            //     sliceImages[i].tilePosition.x += Math.cos((i*step + (i*step + step))/2) * 0.1;
             //     sliceImages[i].tilePosition.y += Math.sin((i*step + (i*step + step))/2) * 0.1;
+            //     // sliceImages[i].tilePosition.x -= Math.cos((i*step + (i*step + step))/2) * 0.1;
+            //     // sliceImages[i].tilePosition.y += Math.sin((i*step + (i*step + step))/2) * 0.1;
             // }
             
 
