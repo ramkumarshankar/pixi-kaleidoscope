@@ -86,6 +86,9 @@ var Kaleidoscope = function (pixiApp) {
                 texture.anchor.x = 0.5;
                 texture.anchor.y = 0.5;
             }
+            // Use anchor.x setting for offset config
+            texture.anchor.x = 0.80; // safe values are between 0.20 and 0.80
+            texture.anchor.y = 0.5;
 
 
             self.textureContainer.addChild(texture);
