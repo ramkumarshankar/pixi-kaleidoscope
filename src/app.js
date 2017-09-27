@@ -32,7 +32,7 @@ function init() {
   //create a texture
   // kal.texture = PIXI.Texture.fromImage("./assets/kal-test.png");
   kal.texture = PIXI.Texture.fromImage("./assets/bg--alt-04.jpg");
-  // var texture = PIXI.Texture.fromImage("./assets/bg--main-bertrand.jpg");
+  // kal.texture = PIXI.Texture.fromImage("./assets/bg--main-bertrand.jpg");
   kal.tilingSprite = new PIXI.extras.TilingSprite(kal.texture, 2000, 2000);
 
   kal.setup();
