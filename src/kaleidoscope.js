@@ -70,14 +70,25 @@ var Kaleidoscope = function (pixiApp) {
             // Setup texture
             var texture = new PIXI.extras.TilingSprite(self.texture, 2048, 2048);
             texture.position = {x: window.innerWidth/2, y: window.innerHeight/2};
-            texture.anchor.x = 0;
-            texture.anchor.y = 0;
+            texture.anchor.x = 0.5;
+            texture.anchor.y = 0.5;
             texture.mask = slice;
-            texture.rotation = i*step;
+            // texture.tileScale.x *= -1;
+            // texture.rotation = i*step;
+            // texture.rotation = (i*step + (i*step + step))/2;
+
+            if (i ===0) {
+                // texture.tileScale.y *= -1;
+                // texture.tileScale.x *= -1;
+                // texture.tileScale.y *= -1;
+            }
 
             if (i % 2 !== 0) {
-                texture.anchor.x = 0;
-                texture.anchor.y = 0;
+                texture.anchor.x = 0.5;
+                texture.anchor.y = 0.5;
+                // texture.rotation = self.TWO_PI - (i*step + (i*step + step))/2;
+                // texture.tileScale.y *= -1;
+                // console.log(texture.tileScale);
                 // texture.tileScale.x *= -1;
                 // texture.tileScale.y *= -1;
                 // texture.scale.x *= -1;
@@ -94,8 +105,10 @@ var Kaleidoscope = function (pixiApp) {
         var step = self.TWO_PI / self.variables.slices;
 
         for (var i = 0; i < sliceImages.length; i++) {
-            // sliceImages[i].tilePosition.x += Math.cos(sliceImages[i].rotation);
-            // sliceImages[i].tilePosition.y += Math.sin(sliceImages[i].rotation);
+            // sliceImages[i].tilePosition.x += Math.cos((i*step + (i*step + step))/2) * 0.1;
+            // sliceImages[i].tilePosition.y += Math.sin((i*step + (i*step + step))/2) * 0.1;
+
+            // sliceImages[i].tilePosition.y += Math.sin(i*step) * 0.1;
             // sliceImages[i].tilePosition.x += 1;//Math.cos(sliceImages[i].rotation);
             // sliceImages[i].tilePosition.y += 1; //Math.sin(sliceImages[i].rotation);
             // sliceImages[i].rotation += 0.001;
