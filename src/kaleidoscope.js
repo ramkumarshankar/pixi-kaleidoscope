@@ -12,7 +12,7 @@ var Kaleidoscope = function (pixiApp) {
     self.pieces = [];
     self.arcs = [];
 
-    self.parentElement = null;
+    self.radius = Math.round(Math.sqrt ( (Math.pow(self.app.view.width, 2) + Math.pow(self.app.view.height, 2) ) / 2  ) );
 
     self.texture = null;
     self.tilingSprite = null;
@@ -20,22 +20,13 @@ var Kaleidoscope = function (pixiApp) {
     self.sliceContainer = new PIXI.Container();
     self.textureContainer = new PIXI.Container();
 
-    self.viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    self.viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
-
     self.variables = {
         offsetRotation: 0.0,
         offsetScale: 0.8,
         offsetX: 0.0,
         offsetY: 0.0,
-        radius: 500, // TO BE CHANGED
-        // radius: Math.round(Math.sqrt( (self.viewportWidth* self.viewportWidth) + (self.viewportHeight * self.viewportHeight) ) / 2),
-        slices: 20,
+        slices: 6,
         zoom: 1.0
-    };
-
-    self.setParent = function(element) {
-        self.parentElement = element;
     };
 
     self.setup = function() {
@@ -60,9 +51,9 @@ var Kaleidoscope = function (pixiApp) {
             slice.lineStyle(2, 0xffffff);
             // slice.position = {x: window.innerWidth/2, y: window.innerHeight/2};
             slice.moveTo(0, 0);
-            slice.arc(0, 0, self.variables.radius, i*step + (step * -0.51), i*step + step * 0.51); // cx, cy, radius, startAngle, endAngle\
+            slice.arc(0, 0, self.radius, i*step + (step * -0.51), i*step + step * 0.51); // cx, cy, radius, startAngle, endAngle\
             slice.closePath();
-            slice.position = {x: window.innerWidth/2, y: window.innerHeight/2};
+            slice.position = {x: self.app.view.width/2, y: self.app.view.height/2};
 
             slice.endFill();
             self.sliceContainer.addChild(slice);
@@ -73,7 +64,7 @@ var Kaleidoscope = function (pixiApp) {
             var texture = new PIXI.extras.TilingSprite(self.texture, 1920, 1080);
             texture.anchor.x = 0.5;
             texture.anchor.y = 0.5;
-            texture.position = {x: window.innerWidth/2, y: window.innerHeight/2};
+            texture.position = {x: self.app.view.width/2, y: self.app.view.height/2};
             texture.rotation = self.HALF_PI;
             texture.rotation += currentRotation;
             
@@ -87,7 +78,7 @@ var Kaleidoscope = function (pixiApp) {
                 texture.anchor.y = 0.5;
             }
             // Use anchor.x setting for offset config
-            texture.anchor.x = 0.80; // safe values are between 0.20 and 0.80
+            texture.anchor.x = 0.50; // safe values are between 0.20 and 0.80
             texture.anchor.y = 0.5;
 
 

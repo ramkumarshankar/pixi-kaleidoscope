@@ -44,11 +44,8 @@ kal.app.ticker.add(update);
 
 // // update();
 function update(delta)
-{    
-    // requestAnimationFrame( update );
-    // semicircle.x += 1;
+{
     stats.begin();
-    // app.renderer.render(app.stage);
     kal.update(delta);
     stats.end();
 }
