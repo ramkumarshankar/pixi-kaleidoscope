@@ -62,9 +62,12 @@ function setupGui() {
     console.log(config.slices);
   });
 
-
-  gui.add(config, 'speed', 0, 1).name('Speed').onChange(function(value) {
+  gui.add(config, 'speed', 0, 2).name('Speed').onChange(function(value) {
     config.speed = kal.speed = value;
+  });
+
+  gui.add(config, 'reverse').name('Reverse').onChange(function(value) {
+    config.reverse = kal.reverse = value;
   });
 
 }

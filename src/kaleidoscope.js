@@ -23,6 +23,7 @@ var Kaleidoscope = function (pixiApp) {
     // These variables can be varied by the user
     self.slices = 6;
     self.speed = 0.5;
+    self.reverse = false;
 
     self.variables = {
         offsetRotation: 0.0,
@@ -95,7 +96,13 @@ var Kaleidoscope = function (pixiApp) {
 
         for (var i = 0; i < sliceImages.length; i++) {
 
-            sliceImages[i].tilePosition.y += self.speed;
+            if (self.reverse) {
+                sliceImages[i].tilePosition.y += self.speed;
+            }
+            else {
+                sliceImages[i].tilePosition.y -= self.speed;
+            }
+            
                 
         }
     };
