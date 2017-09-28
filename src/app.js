@@ -6,23 +6,22 @@ var Stats = require('stats.js');
 var config = require('./config/default');
 var Kaleidoscope = require('./kaleidoscope');
 
-
-var bGui = true;
+var bGui = config.bGui;
 var gui = null;
 
-if (bGui) {
-  gui = new dat.GUI();
-  setupGui();
-}
+var loader = PIXI.loader
+  .add(config.images)
+  .load(onAssetsLoaded);
 
+function onAssetsLoaded() {
+  console.log("assets loaded");
+  console.log("initialising kaleidoscope");
+  init();
+}
 
 var stats = new Stats();
 stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
 document.body.appendChild( stats.dom );
-
-var kal = null;
-
-init();
 
 function init() {
   var canvas = document.getElementById('kaleidoscope');
@@ -37,29 +36,43 @@ function init() {
   
   kal = new Kaleidoscope(app);
 
-  //create a texture
-  // kal.texture = PIXI.Texture.fromImage("./assets/kal-test.png");
-  kal.texture = PIXI.Texture.fromImage("./assets/bg--alt-04.jpg");
-  // kal.texture = PIXI.Texture.fromImage("./assets/bg--main-bertrand.jpg");
-  kal.tilingSprite = new PIXI.extras.TilingSprite(kal.texture, 2000, 2000);
+  for (var i = 0; i < config.images.length; i++) {
+    var texture = loader.resources[config.images[i]].texture;
+    kal.textures.push(texture);
+  }
 
   kal.setup();
 
+  kal.app.ticker.add(update);
+
+  if (bGui) {
+    gui = new dat.GUI();
+    setupGui();
+  }
+
 }
 
-kal.app.ticker.add(update);
-
-function update(delta)
-{
+function update(delta) {
     stats.begin();
     kal.update(delta);
     stats.end();
 }
 
 function setupGui() {
+
+  var nextButton = {
+    nextImage: function() {
+      kal.currentIndex++;
+      if (kal.currentIndex >= config.images.length) {
+        kal.currentIndex = 0;
+      }
+      kal.setupSlices();
+    }
+  }
+  
   gui.add(config, 'slices').min(6).max(30).step(2).name('Slices').onChange(function(value) {
     config.slices = kal.slices = value;
-    kal.setupSlices(value);
+    kal.setupSlices();
   });
 
   gui.add(config, 'speed', 0, 2).name('Speed').onChange(function(value) {
@@ -78,5 +91,7 @@ function setupGui() {
   gui.add(config, 'animate').name('Animate').onChange(function(value) {
     config.animate = kal.animate = value;
   });
+
+  gui.add(nextButton, 'nextImage').name('Next Image');
 
 }
