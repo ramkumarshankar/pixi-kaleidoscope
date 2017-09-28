@@ -1,13 +1,20 @@
+// Libraries
 var PIXI = require('pixi.js');
 var Stats = require('stats.js');
+
+// App requires
 var config = require('./config/default');
 var Kaleidoscope = require('./kaleidoscope');
 
-var type = "WebGL"
-if(!PIXI.utils.isWebGLSupported()){
-    type = "canvas"
+
+var bGui = true;
+var gui = null;
+
+if (bGui) {
+  gui = new dat.GUI();
+  setupGui();
 }
-PIXI.utils.sayHello(type)
+
 
 var stats = new Stats();
 stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
@@ -42,10 +49,23 @@ function init() {
 
 kal.app.ticker.add(update);
 
-// // update();
 function update(delta)
 {
     stats.begin();
     kal.update(delta);
     stats.end();
+}
+
+function setupGui() {
+  gui.add(config, 'slices').min(6).step(2).name('Slices').onChange(function(value) {
+    config.slices = value;
+    console.log(config.slices);
+  });
+
+
+  gui.add(config, 'speed', 0.1, 0.8).name('Speed').onChange(function(value) {
+    config.speed = value;
+    console.log(config.speed);
+  });
+  
 }

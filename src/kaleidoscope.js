@@ -20,12 +20,13 @@ var Kaleidoscope = function (pixiApp) {
     self.sliceContainer = new PIXI.Container();
     self.textureContainer = new PIXI.Container();
 
+    self.slices = 6;
+
     self.variables = {
         offsetRotation: 0.0,
         offsetScale: 0.8,
         offsetX: 0.0,
         offsetY: 0.0,
-        slices: 6,
         zoom: 1.0
     };
 
@@ -36,11 +37,11 @@ var Kaleidoscope = function (pixiApp) {
 
         self.sliceContainer.removeChildren();
         self.textureContainer.removeChildren();
-        var step = self.TWO_PI / self.variables.slices;
+        var step = self.TWO_PI / self.slices;
 
         var currentRotation = 0;
 
-        for (var i = 0; i < self.variables.slices; i++) {
+        for (var i = 0; i < self.slices; i++) {
             
             currentRotation = i*step;
  
@@ -61,7 +62,7 @@ var Kaleidoscope = function (pixiApp) {
             // console.log(slice.getBounds());
 
             // Setup texture
-            var texture = new PIXI.extras.TilingSprite(self.texture, 1920, 1080);
+            var texture = new PIXI.extras.TilingSprite(self.texture, 3*1920, 3*1080);
             texture.anchor.x = 0.5;
             texture.anchor.y = 0.5;
             texture.position = {x: self.app.view.width/2, y: self.app.view.height/2};
