@@ -1,6 +1,7 @@
-let PIXI = require('pixi.js');
-let Stats = require('stats.js');
-let Kaleidoscope = require('./kaleidoscope');
+var PIXI = require('pixi.js');
+var Stats = require('stats.js');
+var config = require('./config/default');
+var Kaleidoscope = require('./kaleidoscope');
 
 var type = "WebGL"
 if(!PIXI.utils.isWebGLSupported()){
