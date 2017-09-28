@@ -8,10 +8,6 @@ var Kaleidoscope = function (pixiApp) {
     self.HALF_PI = Math.PI / 2;
     self.TWO_PI = Math.PI * 2;
 
-    self.sprites = [];
-    self.pieces = [];
-    self.arcs = [];
-
     self.textures = [];
 
     self.radius = Math.round(Math.sqrt ( (Math.pow(self.app.view.width, 2) + Math.pow(self.app.view.height, 2) ) / 2  ) );
