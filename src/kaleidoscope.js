@@ -86,8 +86,6 @@ var Kaleidoscope = function (pixiApp) {
 
             // Setup shape
             slice.beginFill(0);
-            slice.lineStyle(2, 0xffffff);
-            // slice.position = {x: window.innerWidth/2, y: window.innerHeight/2};
             slice.moveTo(0, 0);
             slice.arc(0, 0, self.radius, i*step + (step * -0.51), i*step + step * 0.51); // cx, cy, radius, startAngle, endAngle\
             slice.closePath();
