@@ -66,6 +66,11 @@ function setupGui() {
     config.speed = kal.speed = value;
   });
 
+  gui.add(config, 'offsetScale', 0.2, 0.8).name('Offset').onChange(function(value) {
+    config.speed = value;
+    kal.setOffset(value);
+  });
+
   gui.add(config, 'reverse').name('Reverse').onChange(function(value) {
     config.reverse = kal.reverse = value;
   });

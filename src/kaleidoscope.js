@@ -81,9 +81,9 @@ var Kaleidoscope = function (pixiApp) {
                 texture.anchor.x = 0.5;
                 texture.anchor.y = 0.5;
             }
-            // Use anchor.x setting for offset config
-            texture.anchor.x = 0.50; // safe values are between 0.20 and 0.80
-            texture.anchor.y = 0.5;
+            // // Use anchor.x setting for offset config
+            // texture.anchor.x = 0.50; // safe values are between 0.20 and 0.80
+            // texture.anchor.y = 0.5;
 
 
             self.textureContainer.addChild(texture);
@@ -101,9 +101,15 @@ var Kaleidoscope = function (pixiApp) {
             }
             else {
                 sliceImages[i].tilePosition.y -= self.speed;
-            }
-            
-                
+            }       
+        }
+    };
+
+    self.setOffset = function (_offset) {
+        var sliceImages = self.textureContainer.children;
+
+        for (var i = 0; i < sliceImages.length; i++) {
+            sliceImages[i].anchor.x = _offset;
         }
     };
 }
