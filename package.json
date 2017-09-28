@@ -7,6 +7,7 @@
     "dev": "wzrd src/app.js -- --debug",
     "build": "browserify -t uglifyify src/app.js -o dist/kal.js",
     "build-min": "browserify -t uglifyify src/app.js | uglifyjs --compress --mangle --output dist/kal.min.js -- ",
+    "build-all": "npm run build && npm run build-min",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ramkumar Shankar",
