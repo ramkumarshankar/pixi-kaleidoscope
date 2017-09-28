@@ -25,14 +25,7 @@ var Kaleidoscope = function (pixiApp) {
     self.reverse = false;
     self.animate = true;
     self.currentIndex = 0;
-
-    self.variables = {
-        offsetRotation: 0.0,
-        offsetScale: 0.8,
-        offsetX: 0.0,
-        offsetY: 0.0,
-        zoom: 1.0
-    };
+    self.targetOffset = 0.5;
 
     self.setup = function() {
 
@@ -58,16 +51,19 @@ var Kaleidoscope = function (pixiApp) {
             }
             else {
                 sliceImages[i].tilePosition.y -= self.speed;
-            }       
+            }
+
+            if (sliceImages[i].anchor.x !== self.targetOffset) {
+                sliceImages[i].anchor.x += (self.targetOffset - sliceImages[i].anchor.x) * 0.1;
+                if (Math.abs(sliceImages[i].anchor.x - self.targetOffset) < 0.001) {
+                    sliceImages[i].anchor.x = self.targetOffset;
+                }
+            }
         }
     };
 
     self.setOffset = function (_offset) {
-        var sliceImages = self.textureContainer.children;
-
-        for (var i = 0; i < sliceImages.length; i++) {
-            sliceImages[i].anchor.x = _offset;
-        }
+        self.targetOffset = _offset;
     };
 
     self.setupSlices = function () {

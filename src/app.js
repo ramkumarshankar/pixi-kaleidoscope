@@ -79,7 +79,7 @@ function setupGui() {
     config.speed = kal.speed = value;
   });
 
-  gui.add(config, 'offsetScale', 0.2, 0.8).name('Offset').onChange(function(value) {
+  gui.add(config, 'offsetScale', 0.2, 0.8).name('Offset').step(0.001).onChange(function(value) {
     config.speed = value;
     kal.setOffset(value);
   });
