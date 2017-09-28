@@ -8,12 +8,12 @@ var Kaleidoscope = function (pixiApp) {
     self.HALF_PI = Math.PI / 2;
     self.TWO_PI = Math.PI * 2;
 
-    self.textures = [];
-
     self.radius = Math.round(Math.sqrt ( (Math.pow(self.app.view.width, 2) + Math.pow(self.app.view.height, 2) ) / 2  ) );
 
     self.sliceContainer = new PIXI.Container();
     self.textureContainer = new PIXI.Container();
+
+    self.texture = null;
 
     // These variables can be varied by the user
     self.slices = 6;
@@ -86,11 +86,8 @@ var Kaleidoscope = function (pixiApp) {
             slice.endFill();
             self.sliceContainer.addChild(slice);
 
-            // console.log(slice.getBounds());
-
             // Setup texture
-            // var texture = new PIXI.extras.TilingSprite(self.texture, 3*1920, 3*1080);
-            var texture = new PIXI.extras.TilingSprite(self.textures[self.currentIndex], 3*self.textures[self.currentIndex].width, 3*self.textures[self.currentIndex].height);
+            var texture = new PIXI.extras.TilingSprite(self.texture, 3*self.texture.width, 3*self.texture.height);
             texture.anchor.x = 0.5;
             texture.anchor.y = 0.5;
             texture.position = {x: self.app.view.width/2, y: self.app.view.height/2};
@@ -103,9 +100,10 @@ var Kaleidoscope = function (pixiApp) {
                 texture.anchor.x = 1;
                 texture.anchor.y = 0.5;
                 texture.scale.x *= -1;
-                texture.anchor.x = 0.5;
-                texture.anchor.y = 0.5;
             }
+
+            texture.anchor.x = self.targetOffset;
+            texture.anchor.y = self.targetOffset;
 
             self.textureContainer.addChild(texture);
         }

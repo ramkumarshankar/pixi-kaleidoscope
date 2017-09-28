@@ -10,20 +10,16 @@ var bGui = config.bGui;
 var gui = null;
 
 var loader = PIXI.loader
-  .add(config.images)
-  .load(onAssetsLoaded);
-
-function onAssetsLoaded() {
-  console.log("assets loaded");
-  console.log("initialising kaleidoscope");
-  init();
-}
+  .add(config.images[0])
+  .load(init);
 
 var stats = new Stats();
 stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
 document.body.appendChild( stats.dom );
 
 function init() {
+  console.log("first asset loaded");
+  console.log("initialising kaleidoscope");
   var canvas = document.getElementById('kaleidoscope');
   canvas.width = canvas.clientWidth;
   canvas.height = canvas.clientHeight;
@@ -36,10 +32,7 @@ function init() {
   
   kal = new Kaleidoscope(app);
 
-  for (var i = 0; i < config.images.length; i++) {
-    var texture = loader.resources[config.images[i]].texture;
-    kal.textures.push(texture);
-  }
+  kal.texture = loader.resources[config.images[0]].texture;
 
   kal.setup();
 
@@ -66,7 +59,22 @@ function setupGui() {
       if (kal.currentIndex >= config.images.length) {
         kal.currentIndex = 0;
       }
-      kal.setupSlices();
+      try {
+        // Try loading image
+        loader = PIXI.loader
+        .add(config.images[kal.currentIndex])
+        .load(function () {
+          kal.texture = loader.resources[config.images[kal.currentIndex]].texture;
+          kal.setupSlices();
+        });
+      }
+      catch (err) {
+        // Already loaded, just update the kaleidoscope
+        console.log('inside catch');
+        console.log(err);
+        kal.texture = loader.resources[config.images[kal.currentIndex]].texture;
+        kal.setupSlices();
+      }
     }
   }
   
