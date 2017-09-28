@@ -20,7 +20,9 @@ var Kaleidoscope = function (pixiApp) {
     self.sliceContainer = new PIXI.Container();
     self.textureContainer = new PIXI.Container();
 
+    // These variables can be varied by the user
     self.slices = 6;
+    self.speed = 0.5;
 
     self.variables = {
         offsetRotation: 0.0,
@@ -90,11 +92,10 @@ var Kaleidoscope = function (pixiApp) {
 
     self.update = function(delta) {
         var sliceImages = self.textureContainer.children;
-        var speed = 0.5;
 
         for (var i = 0; i < sliceImages.length; i++) {
 
-            sliceImages[i].tilePosition.y += speed;
+            sliceImages[i].tilePosition.y += self.speed;
                 
         }
     };

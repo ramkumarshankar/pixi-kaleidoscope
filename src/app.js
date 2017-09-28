@@ -63,9 +63,8 @@ function setupGui() {
   });
 
 
-  gui.add(config, 'speed', 0.1, 0.8).name('Speed').onChange(function(value) {
-    config.speed = value;
-    console.log(config.speed);
+  gui.add(config, 'speed', 0, 1).name('Speed').onChange(function(value) {
+    config.speed = kal.speed = value;
   });
-  
+
 }
