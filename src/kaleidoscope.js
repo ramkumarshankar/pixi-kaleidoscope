@@ -24,6 +24,7 @@ var Kaleidoscope = function (pixiApp) {
     self.slices = 6;
     self.speed = 0.5;
     self.reverse = false;
+    self.animate = true;
 
     self.variables = {
         offsetRotation: 0.0,
@@ -38,13 +39,46 @@ var Kaleidoscope = function (pixiApp) {
         self.app.stage.addChild(self.sliceContainer);
         self.app.stage.addChild(self.textureContainer);
 
+        self.setupSlices(self.slices);
+
+    }
+
+    self.update = function(delta) {
+
+        if (!self.animate) {
+            return;
+        }
+
+        var sliceImages = self.textureContainer.children;
+
+        for (var i = 0; i < sliceImages.length; i++) {
+
+            if (self.reverse) {
+                sliceImages[i].tilePosition.y += self.speed;
+            }
+            else {
+                sliceImages[i].tilePosition.y -= self.speed;
+            }       
+        }
+    };
+
+    self.setOffset = function (_offset) {
+        var sliceImages = self.textureContainer.children;
+
+        for (var i = 0; i < sliceImages.length; i++) {
+            sliceImages[i].anchor.x = _offset;
+        }
+    };
+
+    self.setupSlices = function (_numSlices) {
+
         self.sliceContainer.removeChildren();
         self.textureContainer.removeChildren();
-        var step = self.TWO_PI / self.slices;
+        var step = self.TWO_PI / _numSlices;
 
         var currentRotation = 0;
 
-        for (var i = 0; i < self.slices; i++) {
+        for (var i = 0; i < _numSlices; i++) {
             
             currentRotation = i*step;
  
@@ -81,37 +115,11 @@ var Kaleidoscope = function (pixiApp) {
                 texture.anchor.x = 0.5;
                 texture.anchor.y = 0.5;
             }
-            // // Use anchor.x setting for offset config
-            // texture.anchor.x = 0.50; // safe values are between 0.20 and 0.80
-            // texture.anchor.y = 0.5;
-
 
             self.textureContainer.addChild(texture);
         }
-
+        
     }
-
-    self.update = function(delta) {
-        var sliceImages = self.textureContainer.children;
-
-        for (var i = 0; i < sliceImages.length; i++) {
-
-            if (self.reverse) {
-                sliceImages[i].tilePosition.y += self.speed;
-            }
-            else {
-                sliceImages[i].tilePosition.y -= self.speed;
-            }       
-        }
-    };
-
-    self.setOffset = function (_offset) {
-        var sliceImages = self.textureContainer.children;
-
-        for (var i = 0; i < sliceImages.length; i++) {
-            sliceImages[i].anchor.x = _offset;
-        }
-    };
 }
 
 module.exports = Kaleidoscope;

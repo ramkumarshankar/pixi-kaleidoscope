@@ -4,7 +4,8 @@
 var config = {
     speed: 0.5,
     reverse: false,
-    offsetScale: 0.5,
+    animate: true,
+    offsetScale: 0.5, // safe values are between 0.20 and 0.80
     slices: 6,
     zoom: 1.0
 }

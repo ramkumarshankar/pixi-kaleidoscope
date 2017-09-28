@@ -57,9 +57,9 @@ function update(delta)
 }
 
 function setupGui() {
-  gui.add(config, 'slices').min(6).step(2).name('Slices').onChange(function(value) {
-    config.slices = value;
-    console.log(config.slices);
+  gui.add(config, 'slices').min(6).max(30).step(2).name('Slices').onChange(function(value) {
+    config.slices = kal.slices = value;
+    kal.setupSlices(value);
   });
 
   gui.add(config, 'speed', 0, 2).name('Speed').onChange(function(value) {
@@ -73,6 +73,10 @@ function setupGui() {
 
   gui.add(config, 'reverse').name('Reverse').onChange(function(value) {
     config.reverse = kal.reverse = value;
+  });
+
+  gui.add(config, 'animate').name('Animate').onChange(function(value) {
+    config.animate = kal.animate = value;
   });
 
 }
