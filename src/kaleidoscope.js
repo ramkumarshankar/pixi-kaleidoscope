@@ -8,7 +8,7 @@ var Kaleidoscope = function (pixiApp) {
     self.HALF_PI = Math.PI / 2;
     self.TWO_PI = Math.PI * 2;
 
-    self.radius = Math.round(Math.sqrt ( (Math.pow(self.app.view.width, 2) + Math.pow(self.app.view.height, 2) ) / 2  ) );
+    self.radius = Math.round(Math.sqrt ( (Math.pow(self.app.view.width/window.devicePixelRatio, 2) + Math.pow(self.app.view.height/window.devicePixelRatio, 2) ) / 2  ) );
 
     self.sliceContainer = new PIXI.Container();
     self.textureContainer = new PIXI.Container();
@@ -24,6 +24,7 @@ var Kaleidoscope = function (pixiApp) {
     self.targetOffset = 0.5;
 
     self.setup = function() {
+        self.radius = Math.round(Math.sqrt ( (Math.pow(self.app.view.width/window.devicePixelRatio, 2) + Math.pow(self.app.view.height/window.devicePixelRatio, 2) ) / 2  ) );
 
         self.app.stage.addChild(self.sliceContainer);
         self.app.stage.addChild(self.textureContainer);
@@ -81,7 +82,7 @@ var Kaleidoscope = function (pixiApp) {
             slice.moveTo(0, 0);
             slice.arc(0, 0, self.radius, i*step + (step * -0.51), i*step + step * 0.51); // cx, cy, radius, startAngle, endAngle\
             slice.closePath();
-            slice.position = {x: self.app.view.width/2, y: self.app.view.height/2};
+            slice.position = {x: self.app.renderer.width/(window.devicePixelRatio * 2), y: self.app.renderer.height/(window.devicePixelRatio * 2)};
 
             slice.endFill();
             self.sliceContainer.addChild(slice);
@@ -90,7 +91,7 @@ var Kaleidoscope = function (pixiApp) {
             var texture = new PIXI.extras.TilingSprite(self.texture, 3*self.texture.width, 3*self.texture.height);
             texture.anchor.x = 0.5;
             texture.anchor.y = 0.5;
-            texture.position = {x: self.app.view.width/2, y: self.app.view.height/2};
+            texture.position = {x: self.app.renderer.width/(window.devicePixelRatio * 2), y: self.app.renderer.height/(window.devicePixelRatio * 2)};
             texture.rotation = self.HALF_PI;
             texture.rotation += currentRotation;
             

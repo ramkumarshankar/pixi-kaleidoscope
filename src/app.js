@@ -28,7 +28,8 @@ function init() {
     autostart: true, 
     width: canvas.width, 
     height: canvas.height,
-    view: canvas});
+    view: canvas,
+    resolution: window.devicePixelRatio });
   
   kal = new Kaleidoscope(app);
 
@@ -42,6 +43,8 @@ function init() {
     gui = new dat.GUI();
     setupGui();
   }
+
+  resize();
 
 }
 
@@ -102,4 +105,20 @@ function setupGui() {
 
   gui.add(nextButton, 'nextImage').name('Next Image');
 
+}
+
+window.onresize = function (event){
+  resize();
+}
+
+function resize() {
+  var w = window.innerWidth;
+  var h = window.innerHeight;
+  var c = document.getElementById('kaleidoscope');
+  c.style.width = w +'px';
+  c.style.height = h +'px';
+  if(kal) {
+      kal.app.renderer.resize(w,h);
+      kal.setupSlices();
+  }
 }
