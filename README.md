@@ -66,4 +66,4 @@ This will produce two files `kal.js` and `kal.min.js` in the `/dist` directory o
 
 ### Deployment
 
-The application looks for a canvas element with the id `kaleidoscope` in the HTML document. When deployment please make sure this element exists.
+The application looks for a canvas element with the id `kaleidoscope` in the HTML document. Before deployment, please make sure this element exists.
