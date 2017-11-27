@@ -5,8 +5,13 @@
   "main": "index.js",
   "scripts": {
     "dev": "wzrd src/app.js -- --debug",
-    "build": "browserify -t uglifyify src/app.js -o dist/kal.js",
-    "build-min": "browserify -t uglifyify src/app.js | uglifyjs --compress --mangle --output dist/kal.min.js -- ",
+    "preprocess": "NODE_ENV=production node ./scripts/preprocess.js",
+    "prebuild": "npm run preprocess",
+    "build": "browserify -t uglifyify src/app-out.js -o dist/kal.js",
+    "postbuild": "rm src/app-out.js",
+    "prebuild-min": "npm run preprocess",
+    "build-min": "browserify -t uglifyify src/app-out.js | uglifyjs --compress --mangle --output dist/kal.min.js -- ",
+    "postbuild-min": "rm src/app-out.js",
     "build-all": "npm run build && npm run build-min",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -19,6 +24,7 @@
     "wzrd": "^1.5.0"
   },
   "devDependencies": {
+    "preprocess": "^3.1.0",
     "uglify-js": "^3.1.2",
     "uglifyify": "^4.0.4"
   }
