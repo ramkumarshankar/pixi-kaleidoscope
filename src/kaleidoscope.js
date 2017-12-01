@@ -15,6 +15,8 @@ var Kaleidoscope = function (pixiApp, config) {
 
     self.texture = null;
 
+    self.currentIndex = 0;
+
     // These variables can be varied by the user
     self.slices = config.slices;
     self.speed = config.speed;
