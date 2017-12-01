@@ -1,12 +1,20 @@
 // Libraries
 var PIXI = require('pixi.js');
 
-// @if NODE_ENV='development'
-var Stats = require('stats.js');
+// @if NODE_ENV='production'
+var config = require('./config/prd');
 // @endif
 
-// App requires
+// @if NODE_ENV='development'
+var Stats = require('stats.js');
 var config = require('./config/default');
+// @endif
+
+if (localStorage.getItem('k_slices') != null) {
+  config.slices = parseInt(localStorage.getItem('k_slices'));
+}
+
+// App requires
 var Kaleidoscope = require('./kaleidoscope');
 
 var bGui = config.bGui;
@@ -34,7 +42,7 @@ function init() {
     view: canvas,
     resolution: window.devicePixelRatio });
   
-  kal = new Kaleidoscope(app);
+  kal = new Kaleidoscope(app, config);
 
   kal.texture = loader.resources[config.images[0]].texture;
 
@@ -43,7 +51,9 @@ function init() {
   kal.app.ticker.add(update);
 
   if (bGui) {
-    gui = new dat.GUI();
+    gui = new dat.GUI({autoPlace: false});
+    var guiContainer = document.getElementById('gui');
+    guiContainer.appendChild(gui.domElement);
     setupGui();
   }
 
@@ -90,6 +100,7 @@ function setupGui() {
   
   gui.add(config, 'slices').min(6).max(30).step(2).name('Slices').onChange(function(value) {
     config.slices = kal.slices = value;
+    localStorage.setItem('k_slices', value);
     kal.setupSlices();
   });
 
