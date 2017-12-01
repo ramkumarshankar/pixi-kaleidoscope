@@ -1,6 +1,6 @@
 var PIXI = require('pixi.js');
 
-var Kaleidoscope = function (pixiApp) {
+var Kaleidoscope = function (pixiApp, config) {
     var self = this;
 
     self.app = pixiApp;
@@ -16,12 +16,11 @@ var Kaleidoscope = function (pixiApp) {
     self.texture = null;
 
     // These variables can be varied by the user
-    self.slices = 6;
-    self.speed = 0.5;
-    self.reverse = false;
-    self.animate = true;
-    self.currentIndex = 0;
-    self.targetOffset = 0.5;
+    self.slices = config.slices;
+    self.speed = config.speed;
+    self.reverse = config.reverse;
+    self.animate = config.animate;
+    self.targetOffset = config.offsetScale;
 
     self.setup = function() {
         self.radius = Math.round(Math.sqrt ( (Math.pow(self.app.view.width/window.devicePixelRatio, 2) + Math.pow(self.app.view.height/window.devicePixelRatio, 2) ) / 2  ) );
