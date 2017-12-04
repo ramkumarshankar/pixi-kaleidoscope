@@ -10,8 +10,8 @@ var Stats = require('stats.js');
 var config = require('./config/default');
 // @endif
 
-if (localStorage.getItem('k_slices') != null) {
-  config.slices = parseInt(localStorage.getItem('k_slices'));
+if (localStorage.getItem('k_config') != null) {
+  config = JSON.parse(localStorage.getItem('k_config'));
 }
 
 // App requires
@@ -100,25 +100,29 @@ function setupGui() {
   
   gui.add(config, 'slices').min(6).max(30).step(2).name('Slices').onChange(function(value) {
     config.slices = kal.slices = value;
-    localStorage.setItem('k_slices', value);
+    localStorage.setItem('k_config', JSON.stringify(config));
     kal.setupSlices();
   });
 
   gui.add(config, 'speed', 0, 2).name('Speed').onChange(function(value) {
     config.speed = kal.speed = value;
+    localStorage.setItem('k_config', JSON.stringify(config));
   });
 
   gui.add(config, 'offsetScale', 0.2, 0.8).name('Offset').step(0.001).onChange(function(value) {
-    config.speed = value;
+    config.offsetScale = value;
+    localStorage.setItem('k_config', JSON.stringify(config));
     kal.setOffset(value);
   });
 
   gui.add(config, 'reverse').name('Reverse').onChange(function(value) {
     config.reverse = kal.reverse = value;
+    localStorage.setItem('k_config', JSON.stringify(config));
   });
 
   gui.add(config, 'animate').name('Animate').onChange(function(value) {
     config.animate = kal.animate = value;
+    localStorage.setItem('k_config', JSON.stringify(config));
   });
 
   gui.add(nextButton, 'nextImage').name('Next Image');

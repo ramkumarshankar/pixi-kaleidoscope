@@ -8,7 +8,6 @@ var config = {
     animate: true,
     offsetScale: 0.5, // safe values are between 0.20 and 0.80
     slices: 6,
-    zoom: 1.0,
     images: [
         './assets/bg--alt-01.jpg',
         './assets/bg--alt-02.jpg',

@@ -17,7 +17,7 @@ var Kaleidoscope = function (pixiApp, config) {
 
     self.currentIndex = 0;
 
-    // These variables can be varied by the user
+    // These parameters can be changed by the user
     self.slices = config.slices;
     self.speed = config.speed;
     self.reverse = config.reverse;
@@ -89,7 +89,7 @@ var Kaleidoscope = function (pixiApp, config) {
             self.sliceContainer.addChild(slice);
 
             // Setup texture
-            var texture = new PIXI.extras.TilingSprite(self.texture, 3*self.texture.width, 3*self.texture.height);
+            var texture = new PIXI.extras.TilingSprite(self.texture, 5*self.texture.width, 5*self.texture.height);
             texture.anchor.x = 0.5;
             texture.anchor.y = 0.5;
             texture.position = {x: self.app.renderer.width/(window.devicePixelRatio * 2), y: self.app.renderer.height/(window.devicePixelRatio * 2)};
