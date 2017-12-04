@@ -6,23 +6,27 @@ This repo is the code for the kaleidoscope made with Pixi.js.
 
 A node.js app.
 
-## Development
+## Setup
 
 Clone this repo, change to the project directory and run 
 
 `npm install`
 
-Then, to run the local development environment run
-
-`npm run dev`
-
 ## Structure
 
 Key components:
 
-- `/src` - Contains the source and configuration files for the animation. The configuration file used during build is `/src/config/default.js`.
+- `/src` - Contains the source and configuration files for the animation. There are two configuraton files - `/src/config/default.js` is for dev, and `/src/config/prd.js` is used for the production build. The main difference in production config file is the image paths being passed in through `localStorage`, for integration with the Shopify store.
 
 - `/assets` - Image assets used for the kaleidoscope. When you click on 'Next Image' in the kaleidoscope, these are the images the animation will cycle through.
+
+## Development  
+
+To run the local development environment run
+
+`npm run dev`
+
+This build will use the config values in `/src/config/default.js`. 
 
 ## Building for deployment
 
@@ -35,7 +39,7 @@ There are two jobs to perform a production build:
 
 ### Configuring for build
 
-Before running the build, make sure the image asset paths (specified in `/src/config/default.js`) are correct. The kaleidoscope is initialised with the first image in this list.
+Before running the build, make sure the image asset paths (specified in `/src/config/prd.js`) are correct. The kaleidoscope is initialised with the first image in this list.
 
 ```
 images: [
